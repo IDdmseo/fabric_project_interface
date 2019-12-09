@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>자동차 거래</title>
+		<link rel="stylesheet" href="/stylesheets/style.css" />
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+	</head>
+	<body>
+		<br><br><br>
+
+		<div id="main">
+			<div class="inner">
+				<div class="row gtr-200">
+					<div class="col-6">
+						<h2>Identity </h2>
+						<form method="get" action="enrollAdmin">
+							<button type="submit" class="primary" onclick="">enroll admin</button>
+						</form>
+						<h4>Name  :  <a id="name"><%= name %></a></h4>
+						<form method="post" action="registerUser">
+							<h4>change user</h4>
+							<input type="text" name="user" id="user" value="" placeholder="Enter user name" /><br>
+							<button type="submit" class="primary" onclick="">change user</button>
+						</form>
+					</div>
+				</div>
+				<hr class="major">
+
+				<div class="row gtr-200">
+					<div class ="col-6 col-12-medium">
+						<h2>Register My Car</h2>
+						<form method="post" action="#">
+							<div class="row gtr-uniform">
+								<div class="col-6 col-12-xsmall">
+									<h4>make</h4>
+									<input type="text" name="make" id="make" value="" placeholder="make" /><br>
+									<h4>model</h4>
+									<input type="text" name="model" id="model" value="" placeholder="model" /><br>
+									<h4>color</h4>
+									<input type="text" name="color" id="color" value="" placeholder="color" /><br>
+								</div>
+							</div>
+							<div class="col-12">
+								<ul class="actions">
+									<li><button id="submit" class="primary" onclick="" />register</li>
+									<li><input type="reset" value="reset" /></li>
+								</ul>
+							</div>
+						</form>
+					</div>
+
+					<div class ="col-6 col-12-medium">
+						<h2>My Cars</h2>
+						<table>
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Owner</th>
+									<th>Make</th>
+									<th>Model</th>
+									<th>Color</th>
+								</tr>
+							</thead>
+							<tbody id="myCars">
+							</tbody>
+						</table>
+					</div>
+
+					<div class ="col-6 col-12-medium">
+						<h2>Sell My Car</h2>
+						<form method="post" action="/">
+							<div class="row gtr-uniform">
+								<div class="col-12">
+									<select name="demo-category" id="mycars-category">
+									</select>
+								</div>
+								<div class="col-12">
+									<ul class="actions">
+										<li><input type="submit" value="Sell" class="primary" onclick="" /></li>
+										<li><input type="reset" value="reset" /></li>
+									</ul>
+								</div>
+							</div>
+						</form>
+					</div>
+
+
+					<div class ="col-6 col-12-medium">
+						<h2>Buy Users Car</h2>
+						<form method="post" action="/">
+							<div class="row gtr-uniform">
+								<div class="col-12">
+									<select name="demo-category" id="sale-category">
+									</select>
+								</div>
+								<div class="col-12">
+									<ul class="actions">
+										<li><input type="submit" value="Buy" class="primary" onclick=""/></li>
+										<li><input type="reset" value="Reset" /></li>
+									</ul>
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+
+				<hr class="major">
+
+				<div class="row gtr-200">
+					<div class ="col-6 col-12-medium">
+						<h3>registered cars</h3>
+						<div class="table-wrapper">
+							<table>
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Owner</th>
+										<th>Make</th>
+										<th>Model</th>
+										<th>Color</th>
+									</tr>
+								</thead>
+								<tbody id="registeredCars">
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class ="col-6 col-12-medium">
+						<h3>cars on sale</h3>
+						<div class="table-wrapper">
+							<table>
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Owner</th>
+										<th>Make</th>
+										<th>Model</th>
+										<th>Color</th>
+										<th>Price</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody id="carsOnSale">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
