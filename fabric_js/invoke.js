@@ -42,13 +42,18 @@ var invoke = async function(name, fun, args){
 
             await contract.submitTransaction('registerCar', make, model, color, name);
         } 
+        else if (fun == changeOwnerName){
+            await contract.submitTransaction('changeOwnerName', name);
+        }
         else if (fun == sellMyCar){
             // need to pick the car
-            await contract.submitTransaction('sellMyCar');
+            var key;
+            await contract.submitTransaction('sellMyCar', keyId);
         }
         else if (fun == buyUserCar){
             // need to pick the car
-            await contract.submitTransaction('buyUserCar');
+            var key;
+            await contract.submitTransaction('buyUserCar',key, name);
         } 
 
         //await contract.submitTransaction('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom'); -> call invoke function in chaincode

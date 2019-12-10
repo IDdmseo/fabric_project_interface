@@ -26,6 +26,9 @@ public final class Car {
     @Property()
     private final String owner;
 
+    @Property()
+    private final String sell;
+
     public String getMake() {
         return make;
     }
@@ -42,11 +45,16 @@ public final class Car {
         return owner;
     }
 
+    public String getSell(){
+        return sell;
+    }
+
     public Car(final String make, final String model, final String color, final String owner) {
         this.make = make;
         this.model = model;
         this.color = color;
         this.owner = owner;
+        this.sell = "none";
     }
 
     @Override

@@ -80,6 +80,7 @@ public class CarTrade extends ChaincodeBase {
         final String key = carword.concat(Integer.tostring(registeredIdx));
 
         String carState = stub.getStringState(key);
+
         if(!carState.isEmpty()){
             String errorMessage = String.format("Car %s already exists", key);
             System.out.println(errorMessage);
@@ -95,58 +96,48 @@ public class CarTrade extends ChaincodeBase {
 
     private Response sellMyCar(ChaincodeStub stub, List<String> args) {
         String key = args.get(0);
-        String carState = stub.getStringState(key);    
-        Car currCar = genson.deserialize(carState, Car.class);
-        String HashString = Integer.toString(currCar.hashCode());
-        
-        if(!(stub.getStringState(HashString)).IsEmpty()){
+        String carState = stub.getStringState(key);
+        Car sellCar = genson.deserialize(carState, Car.class);
+
+        if(sellCar.getSell() == "sell") {
             String errorMessage = String.format("Car %s already exists in seller part", key);
             System.out.println(errorMessage);
             throw new ChaincodeException(errorMessage, FabCarErrors.CAR_ALREADY_EXISTS.toString());           
         }
 
-        stub.putStringState(HashString, "seller");
-        
+        sellCar.sell = "sell";
+        putStringState(key, genson.serialize(sellCar));
         return newSuccessResponse("invoke finished successfully");
     }
 
     private Response buyUserCar(ChaincodeStub stub, List<String> args) {
+        // params 0: key, 1: name;
         String key = args.get(0);
         String carState = stub.getStringState(key);
         Car buyCar = genson.deserialize(carState, Car.class);
-        String HashString;
-        
+
         if(carState.IsEmpty()){
             String errorMessage = String.format("Car %s does not exist", key);
             System.out.println(errorMessage);
             throw new ChaincodeException(errorMessage, FabCarErrors.CAR_NOT_FOUND.toString());
         }
 
-        changeCarOwner(key, buyCar.getOwner());
-        buyCar = genson.deserialize(carState, Car.class);
-        HashString = Integer.toString(buyCar.HashCode());
-        stub.putStringState(HashString, "done");
+        else if (buyCar.getSell() != "sell"){
+            String errorMessage = String.format("Car %s does not sell state", key);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, FabCarErrors.CAR_NOT_FOUND.toString());
+        }
+
+        Car newCar = Car(buyCar.getMake(), buyCar.getMode(), buyCar.getColor(), args.get(1));
+        carState = genson.serialize(newCar);
+        stub.putStringState(key, carState);
         
         return newSuccessResponse("invoke finished successfully");
     }
 
     private Response changeCarOwner(ChaincodeStub stub, List<String> args) {
-        // params 0: key, 1: name;
-        String carState = stub.getStringState(args.get(0));
-
-        if(carState.isEmpty()){
-            String errorMessage = String.format("Car %s does not exist", key);
-            System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, FabCarErrors.CAR_NOT_FOUND.toString());
-        }
-
-        Car car = genson.deserialize(carState, Car.class);
-        Car newCar = Car(car.getMake(), car.getModel(), car.getColor(), args.get(1));
-        carState = genson.serialize(newCar);
-        stub.putStringState(carState);
-
-        // return newCar;
-        return newSuccessResponse("invoke finished successfully");
+        // params: 0 -> name
+        
     }
 
     private Response getMyCar(ChaincodeStub stub, List<String> args) {
@@ -160,7 +151,7 @@ public class CarTrade extends ChaincodeBase {
 
         for(KeyValue result: results){
             Car car = genson.deserialize(result.getStringValue(), Car.class);
-            if (myName == car.getOwner())
+            if ((myName == car.getOwner()) && (car.getSell() != "sell"))
                 cars.add(car);
         }
 
@@ -173,7 +164,6 @@ public class CarTrade extends ChaincodeBase {
         String startKey = "CAR".concat(Integer.toString(0));
         String endKey = "CAR".concat(Integer.toString(registeredIdx));
         List<Car> cars = new ArrayList<Car>();
-        //return newSuccessResponse(val, ByteString.copyFrom(val, UTF_8).toByteArray());  -> bytestring으로 val 값 return()
 
         QueryResultsIterator<KeyValue> results = stub.getStateByRange(startKey, endKey);
 
@@ -189,9 +179,20 @@ public class CarTrade extends ChaincodeBase {
     }
 
     private Response getAllOrderedCar(ChaincodeStub stub, List<String> args) {
+        String startKey = "CAR".concat(Integer.toString(0));
+        String endKey = "CAR".concat(Integer.toString(orderedIdx));
+        List<Car> cars = new ArrayList<Car>();
+
+        QueryResultsIterator<KeyValue> results = stub.getStateByRange(startKey, endKey);
+
+        for(KeyValue result: results){
+            Car car = genson.deserialize(result.getStringValue, Car.class);
+            if(car.getSell() == "sell")
+                cars.add(car);
+        }
         
-        //return newSuccessResponse(val, ByteString.copyFrom(val, UTF_8).toByteArray());  -> bytestring으로 val 값 return()
-        return newSuccessResponse("invoke finished successfully");
+        return cars;
+        // return newSuccessResponse("invoke finished successfully");
     }
 
     public static void main(String[] args) {

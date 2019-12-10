@@ -21,7 +21,7 @@
 						<form method="post" action="registerUser">
 							<h4>change user</h4>
 							<input type="text" name="user" id="user" value="" placeholder="Enter user name" /><br>
-							<button type="submit" class="primary" onclick="">change user</button>
+							<button type="submit" class="primary" onclick="invoke($('#user').val(), changeOwnerName)">change user</button>
 						</form>
 					</div>
 				</div>
@@ -43,7 +43,7 @@
 							</div>
 							<div class="col-12">
 								<ul class="actions">
-									<li><button id="submit" class="primary" onclick="" />register</li>
+									<li><button id="submit" class="primary" onclick="invoke($('#name').val(),'registerCar', $('#make').val(), $('#model').val(),$('#color').val())" />register</li>
 									<li><input type="reset" value="reset" /></li>
 								</ul>
 							</div>
@@ -73,11 +73,15 @@
 							<div class="row gtr-uniform">
 								<div class="col-12">
 									<select name="demo-category" id="mycars-category">
+										# implement part to select own registered Car
+										# show all items and
+										# pick the one category and get and deliver keyid to invoke(sellMyCar) 
+										# <option value="">category</option>
 									</select>
 								</div>
 								<div class="col-12">
 									<ul class="actions">
-										<li><input type="submit" value="Sell" class="primary" onclick="" /></li>
+										<li><input type="submit" value="Sell" class="primary" onclick="invoke($('#name').val(), sellMyCar, keyid)" /></li>
 										<li><input type="reset" value="reset" /></li>
 									</ul>
 								</div>
@@ -92,11 +96,13 @@
 							<div class="row gtr-uniform">
 								<div class="col-12">
 									<select name="demo-category" id="sale-category">
+										#implement part to select own registered Car
+										#<option value="">category</option>
 									</select>
 								</div>
 								<div class="col-12">
 									<ul class="actions">
-										<li><input type="submit" value="Buy" class="primary" onclick=""/></li>
+										<li><input type="submit" value="Buy" class="primary" onclick="invoke($('name').val(), buyUserCar, keyid)"/></li>
 										<li><input type="reset" value="Reset" /></li>
 									</ul>
 								</div>
@@ -122,7 +128,8 @@
 										<th>Color</th>
 									</tr>
 								</thead>
-								<tbody id="registeredCars">
+								<tbody id="registeredCars">	
+									# express table
 								</tbody>
 							</table>
 						</div>
